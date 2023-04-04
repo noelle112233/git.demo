@@ -1,0 +1,67 @@
+git安装
+    https://git-scm.com/
+
+配置：
+    name
+        git config --global user.name "lizimin"
+    email
+         git config --global user.email "717992529@qq.com"
+
+使用git：
+    git status
+        - 查看当前仓库状态
+    git init
+        - 初始化仓库
+    
+git 中文件有两种状态：未跟踪，已跟踪
+    - 其中已跟踪的文件又有三种状态：
+                                未修改  表示磁盘中的文件和git仓库里的文件相同，没有修改
+                                已修改  表示磁盘中的文件已经被修改，和git仓库中的文件不同
+                                暂存  表示文件修改已经保存，但是还没有提交到git仓库里
+    - 刚刚添加进项目的文件处于未跟踪状态  Untracked files 
+        未跟踪---->暂存
+            git add <filename>   将文件切换到暂存状态
+            git add *   将所有未跟踪的文件暂存
+
+        暂存--->未修改 (入库)
+            git commit -m "xxx"  将暂存的文件存储入仓库中
+            git commit -a -m "xxx"   提交所有已修改文件（可以跳过add步骤）（未跟踪的文件不会提交）
+        未修改--->已修改
+            修改代码后，文件会变成已修改状态
+
+
+常用命令：
+    1、重置文件
+        git restore <filename>   恢复文件
+        git restore --staged <filename>  取消暂存状态
+    2、 删除文件
+        git rm <filename>   删除文件
+        git rm <filename> -f   强制删除文件
+    3、移动文件
+        git mv from to  移动文件（重命名文件）
+
+分支：
+    git 在存储文件时每一次代码提交都会创建一个与之对应的节点，git就是利用节点来记录代码的状态的
+    节点会构成一个树状结构，意味着存在分支，默认仓库中只有一个分支master
+    在使用git时，可以创建多个分支，分支与分支之间相互独立
+        git branch  查看当前分支
+        git branch <branchname>  创建新的分支
+        git branch -d <branchname>  删除分支
+        git switch <branchname>  切换分支
+        git switch -c <branchname>  创建分支并切换为该分支
+        git merge <branchname>  合并分支
+
+    在开发中，都是在自己的分支山编写代码，代码编写完成后，再将自己的分支合并到主分支中
+    在开发中，除了使用merge合并分支外，还可以使用变基来合并分支
+        
+变基：
+    在开发中，除了使用merge合并分支外，还可以使用 变基 来合并分支
+    通过merge合并分支时，在提交记录中，会将所有的分支创建和合并的过程都显示出来，项目复杂时必须要反复创建提交
+        这样会使我们的记录变得非常混乱
+
+    原理；
+        1、当我们发生变基时，git会先找到最近的共同祖先
+        2、对比当前分支相对于该祖先的历史提交，并且将他们不同的提取出来存储到一个临时文件里
+        3、将当前部分指向目标的基底
+        4、以当前基底开始，重新执行历史操作
+        
